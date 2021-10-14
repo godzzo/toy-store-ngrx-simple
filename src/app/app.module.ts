@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { HelloComponent } from './hello.component';
@@ -8,7 +8,7 @@ import { HelloComponent } from './hello.component';
 import { storeImports } from '../store/toy.imports';
 
 @NgModule({
-  imports: [BrowserModule, FormsModule, ...storeImports],
+  imports: [BrowserModule, FormsModule, ReactiveFormsModule, ...storeImports],
   declarations: [AppComponent, HelloComponent],
   bootstrap: [AppComponent],
 })

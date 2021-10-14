@@ -1,9 +1,17 @@
-import { on, createAction, createReducer, props } from '@ngrx/store';
-import { intialToyState, Toy } from './toy.types';
+import {
+  on,
+  createAction,
+  createSelector,
+  createReducer,
+  props,
+} from '@ngrx/store';
+import { intialToyState, Toy, ToyState } from './toy.types';
 
 export const toyActions = {
   add: createAction('Toy add', props<Toy>()),
   edit: createAction('Toy edit', props<Toy>()),
+  choose: createAction('Toy choose', props<Toy>()),
+  create: createAction('Toy create'),
   remove: createAction('Toy remove', props<{ id: number }>()),
 };
 
@@ -29,6 +37,25 @@ export const toyReducer = createReducer(
       items,
     };
   }),
+  on(toyActions.choose, (state, payload) => {
+    return {
+      ...state,
+      mode: 'edit',
+      current: payload,
+    };
+  }),
+  on(toyActions.create, (state, payload) => {
+    const id = state.items.length + 1;
+
+    return {
+      ...state,
+      mode: 'new',
+      current: {
+        id,
+        name: `NEW-${state.items.length}-${new Date().toISOString()}`,
+      },
+    };
+  }),
   on(toyActions.remove, (state, payload) => {
     return {
       ...state,
@@ -36,3 +63,11 @@ export const toyReducer = createReducer(
     };
   })
 );
+
+export const selectFeature = (state: { toy: ToyState }) => state.toy;
+
+export const toySelectors = {
+  current: createSelector(selectFeature, (state: ToyState) => state.current),
+  items: createSelector(selectFeature, (state: ToyState) => state.items),
+  mode: createSelector(selectFeature, (state: ToyState) => state.mode),
+};
