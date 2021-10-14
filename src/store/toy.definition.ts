@@ -70,4 +70,8 @@ export const toySelectors = {
   current: createSelector(selectFeature, (state: ToyState) => state.current),
   items: createSelector(selectFeature, (state: ToyState) => state.items),
   mode: createSelector(selectFeature, (state: ToyState) => state.mode),
+  currentAndMode: createSelector(selectFeature, (state: ToyState) => ({
+    mode: state.mode,
+    current: state.current,
+  })),
 };

@@ -15,9 +15,10 @@ import { Toy } from '../store/toy.types';
 export class AppComponent {
   name = 'Angular ' + VERSION.major;
 
-  current$ = this.store.select(toySelectors.current).pipe(
-    map((current) => {
+  current$ = this.store.select(toySelectors.currentAndMode).pipe(
+    map(({ current, mode }) => {
       return {
+        mode,
         toy: current,
         form: this.formBuilder.group({ id: current.id, name: current.name }),
       };
@@ -29,10 +30,18 @@ export class AppComponent {
   constructor(private store: Store, private formBuilder: FormBuilder) {}
 
   onEdit(toy: Toy) {
-    this.store.dispatch(toyActions.edit(toy));
+    this.store.dispatch(toyActions.choose(toy));
   }
 
   onNew() {
     this.store.dispatch(toyActions.create());
+  }
+
+  onSave(mode: 'new' | 'edit', toy: Toy) {
+    if (mode === 'new') {
+      this.store.dispatch(toyActions.add(toy));
+    } else {
+      this.store.dispatch(toyActions.edit(toy));
+    }
   }
 }
