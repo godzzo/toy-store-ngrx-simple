@@ -52,7 +52,7 @@ export const toyReducer = createReducer(
       mode: 'new',
       current: {
         id,
-        name: `NEW-${state.items.length}-${new Date().toISOString()}`,
+        name: `NEW-${id}-${new Date().toISOString()}`,
       },
     };
   }),
