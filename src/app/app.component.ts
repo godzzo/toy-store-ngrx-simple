@@ -56,4 +56,8 @@ export class AppComponent {
       this.store.dispatch(toyActions.edit(toy));
     }
   }
+
+  onRemove(item: Toy) {
+    this.store.dispatch(toyActions.remove(item));
+  }
 }

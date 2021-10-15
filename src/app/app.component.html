@@ -1,34 +1,36 @@
 <div class="p-4">
-  <hello name="{{ name }}"></hello>
-  <p>Start editing to see some magic happen :)</p>
-
   <div class="flex flex-row justify-between">
-    <div (click)="onNew()">NEW</div>
-  </div>
-
-  <div *ngIf="withoutComposite$ | async as ctx">
-    {{ ctx.mode }} / {{ ctx.current.id }}
-  </div>
-
-  <div
-    class="p-2 m-auto border-4 border-blue-500 border-opacity-50"
-    *ngIf="current$ | async as ctx"
-  >
-    <div [formGroup]="ctx.form">
-      <div>MODE: {{ ctx.mode }}</div>
-      <div>ID: {{ ctx.toy.id }}</div>
-      <div>
-        <input type="text" formControlName="name" />
-      </div>
-      <button (click)="onSave(ctx.mode, ctx.form.value)">SAVE</button>
+    <app-button (click)="onNew()">NEW</app-button>
+    <div *ngIf="withoutComposite$ | async as ctx">
+      {{ ctx.mode }} / {{ ctx.current.id }}
     </div>
   </div>
 
-  <div class="p-2 m-auto">
-    <div *ngFor="let item of items$ | async" class="flex flex-row gap-2">
-      <div>{{ item.id }}</div>
-      <div>{{ item.name }}</div>
-      <div (click)="onEdit(item)">EDIT</div>
+  <div class="flex flex-row gap-2">
+    <div
+      class="p-2 m-auto border-4 border-blue-500 border-opacity-50"
+      *ngIf="current$ | async as ctx"
+    >
+      <div [formGroup]="ctx.form">
+        <div>MODE: {{ ctx.mode }}</div>
+        <div>ID: {{ ctx.toy.id }}</div>
+        <div>
+          <input type="text" formControlName="name" />
+        </div>
+        <app-button (click)="onSave(ctx.mode, ctx.form.value)">SAVE</app-button>
+      </div>
+    </div>
+
+    <div class="p-2 m-auto">
+      <div
+        *ngFor="let item of items$ | async"
+        class="flex flex-row gap-2 p-1 justify-center items-center"
+      >
+        <div>{{ item.id }}</div>
+        <div>{{ item.name }}</div>
+        <app-button (click)="onEdit(item)">EDIT</app-button>
+        <app-button (click)="onRemove(item)">DEL</app-button>
+      </div>
     </div>
   </div>
 </div>
