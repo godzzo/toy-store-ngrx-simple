@@ -19,6 +19,8 @@ export class AppComponent {
   current$ = this.store.select(toySelectors.currentAndMode).pipe(
     tap((parms) => console.log('current$ - tap', { ...parms })),
     map(({ current, mode }) => {
+      this.chooseCount++;
+
       return {
         mode,
         toy: current,
@@ -38,6 +40,8 @@ export class AppComponent {
 
   items$ = this.store.select(toySelectors.items);
   mode$ = this.store.select(toySelectors.mode);
+
+  chooseCount = 1;
 
   constructor(private store: Store, private formBuilder: FormBuilder) {}
 

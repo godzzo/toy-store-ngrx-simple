@@ -2,14 +2,20 @@
   <div class="flex flex-row justify-between">
     <app-button (click)="onNew()">NEW</app-button>
     <div *ngIf="withoutComposite$ | async as ctx">
-      {{ ctx.mode }} / {{ ctx.current.id }}
+      {{ ctx.mode }} / {{ ctx.current.id }} / editTimes: {{ chooseCount }}
     </div>
   </div>
 
   <div class="flex flex-row gap-2">
     <div
-      class="p-2 m-auto border-4 border-blue-500 border-opacity-50"
       *ngIf="current$ | async as ctx"
+      class="p-2 m-auto border-4 border-blue-500 border-opacity-50"
+      [ngClass]="{
+        'bg-green-200': ctx.mode === 'new' && chooseCount % 2 === 0,
+        'bg-blue-200': ctx.mode === 'new' && chooseCount % 2 !== 0,
+        'bg-yellow-200': ctx.mode === 'edit' && chooseCount % 2 === 0,
+        'bg-red-200': ctx.mode === 'edit' && chooseCount % 2 !== 0
+      }"
     >
       <div [formGroup]="ctx.form">
         <div>MODE: {{ ctx.mode }}</div>
