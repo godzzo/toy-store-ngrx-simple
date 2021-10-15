@@ -2,7 +2,8 @@ import { Component, VERSION } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
-import { map } from 'rxjs/operators';
+import { combineLatest } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 import { toyActions, toySelectors } from '../store/toy.definition';
 import { Toy } from '../store/toy.types';
@@ -16,6 +17,7 @@ export class AppComponent {
   name = 'Angular ' + VERSION.major;
 
   current$ = this.store.select(toySelectors.currentAndMode).pipe(
+    tap((parms) => console.log('current$ - tap', { ...parms })),
     map(({ current, mode }) => {
       return {
         mode,
@@ -24,6 +26,16 @@ export class AppComponent {
       };
     })
   );
+  withoutComposite$ = combineLatest([
+    this.store.select(toySelectors.current),
+    this.store.select(toySelectors.mode),
+  ]).pipe(
+    map(([current, mode]) => {
+      console.log('withoutComposite$ - tap', { current, mode });
+      return { current, mode };
+    })
+  );
+
   items$ = this.store.select(toySelectors.items);
   mode$ = this.store.select(toySelectors.mode);
 

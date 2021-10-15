@@ -6,6 +6,10 @@
     <div (click)="onNew()">NEW</div>
   </div>
 
+  <div *ngIf="withoutComposite$ | async as ctx">
+    {{ ctx.mode }} / {{ ctx.current.id }}
+  </div>
+
   <div
     class="p-2 m-auto border-4 border-blue-500 border-opacity-50"
     *ngIf="current$ | async as ctx"
